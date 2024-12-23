@@ -1,22 +1,30 @@
-import java.awt.*;
+import java.awt.event.*;
+import java.awt.Color;
 
-class ChessController {
+public class GameController {
     private Board board;
     private GameLogic gameLogic;
     private Square selectedSquare;
 
-    public ChessController() {
-        board = new Board();
-        gameLogic = new GameLogic(board, this); // Pass 'this' to GameLogic as ChessController reference
-        initialize();
+    public GameController(Board board, GameLogic gameLogic) {
+        this.board = board;
+        this.gameLogic = gameLogic;
+        this.selectedSquare = null;
+
+        // Add action listeners to all squares
+        addActionListeners();
     }
 
-    private void initialize() {
-        // Set up action listeners for the squares on the board
+    private void addActionListeners() {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
                 Square square = board.getSquare(i, j);
-                square.addActionListener(e -> handleSquareClick(square)); // Handle square click
+                square.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        handleSquareClick(square);
+                    }
+                });
             }
         }
     }
@@ -39,13 +47,8 @@ class ChessController {
                 return; // Exit the method if the move is invalid
             }
 
-            boolean pathClear = true;
-            if (!(selectedSquare.getPiece() instanceof Biz)) {
-                pathClear = isPathClear(selectedSquare, square); // Only check path for non-knight pieces
-            }
-
             // If the move is valid and the path is clear (for non-knight pieces)
-            if (selectedSquare.getPiece().isValidMove(selectedSquare, square, board) && pathClear) {
+            if (selectedSquare.getPiece().isValidMove(selectedSquare, square, board)) {
                 square.setPiece(selectedSquare.getPiece());
                 selectedSquare.setPiece(null);
                 resetSelectedSquareColor();
@@ -57,34 +60,10 @@ class ChessController {
         }
     }
 
+    // Reset the background color to the original checkerboard pattern
     private void resetSelectedSquareColor() {
         selectedSquare.setBackground(
                 (selectedSquare.getXPos() + selectedSquare.getYPos()) % 2 == 0 ? new Color(235, 236, 208)
                         : new Color(119, 149, 86)); // Reset color to original
     }
-
-    private boolean isPathClear(Square start, Square end) {
-        int startX = start.getXPos();
-        int startY = start.getYPos();
-        int endX = end.getXPos();
-        int endY = end.getYPos();
-
-        int dx = Integer.compare(endX, startX); // Direction of movement along X (1 for right, -1 for left, 0 for no movement)
-        int dy = Integer.compare(endY, startY); // Direction of movement along Y (1 for down, -1 for up, 0 for no movement)
-
-        int x = startX + dx;
-        int y = startY + dy;
-
-        // Check if the movement is along a straight line or diagonal and if there are any pieces blocking the path
-        while (x != endX || y != endY) {
-            Square square = board.getSquare(x, y);
-            if (square.getPiece() != null) {
-                return false; // Path is blocked
-            }
-            x += dx;
-            y += dy;
-        }
-        return true; // Path is clear
-    }
-    
 }
