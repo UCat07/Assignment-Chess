@@ -3,9 +3,9 @@ import java.awt.Color;
 class Ram extends Piece {
     private boolean movingForward;
 
-    public Ram(Color color) {
-        super("R", color);
-        this.movingForward = true; // Initial direction is forward
+    public Ram(Color color, int x, int y) {
+        super("R", color, x, y);
+        this.movingForward = true; // Initial moving forward
     }
 
     @Override
