@@ -1,51 +1,32 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
+import java.awt.*;
 
-// Save.java
-public class Save {
+class Square extends JButton {
+    private int x, y;
+    private Piece piece;
 
-    // Save the game state to a file
-    public static void saveGame(String fileName, int turn, List<Piece> pieces) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            // Write the current turn
-            writer.write("Turn:" + turn);
-            writer.newLine();
-
-            // Write each piece's data
-            for (Piece piece : pieces) {
-                writer.write(piece.serialize());
-                writer.newLine();
-            }
-
-            System.out.println("Game saved successfully to " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error saving game: " + e.getMessage());
-        }
+    public Square(int y, int x) {
+        this.x = x;
+        this.y = y;
+        this.piece = null;
+        setBackground((x + y) % 2 == 0 ? new Color(235, 236, 208) : new Color(119, 149, 86));
     }
 
-    // Load the game state from a file
-    public static GameState loadGame(String fileName) {
-        int turn = 0;
-        List<Piece> pieces = new ArrayList<>();
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+        setText(piece != null ? piece.getSymbol() : "");
+        setForeground(piece != null ? piece.getColor() : Color.BLACK);
+    }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            // Read the turn
-            String line = reader.readLine();
-            if (line.startsWith("Turn:")) {
-                turn = Integer.parseInt(line.split(":")[1]);
-            }
+    public Piece getPiece() {
+        return piece;
+    }
 
-            // Read each piece's data
-            while ((line = reader.readLine()) != null) {
-                pieces.add(Piece.deserialize(line));
-            }
+    public int getXPos() {
+        return x;
+    }
 
-            System.out.println("Game loaded successfully from " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error loading game: " + e.getMessage());
-        }
-
-        return new GameState(turn, pieces);
+    public int getYPos() {
+        return y;
     }
 }
