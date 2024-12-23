@@ -43,14 +43,14 @@ public class Board {
     public void setupInitialPieces() {
         // Add Ram
         for (int i = 0; i < width; i++) {
-            addPiece(new Ram(Color.CYAN), 6, i);
-            addPiece(new Ram(Color.RED), 1, i);
+            addPiece(new Ram(Color.CYAN, i, 7), 7, i);
+            addPiece(new Ram(Color.RED, i, 0), 0, i);
         }
 
         // Add Biz for BLUE and red
         for (int i = 0; i < width; i++) {
-            addPiece(new Biz(Color.CYAN), 7, i);
-            addPiece(new Biz(Color.RED), 0, i);
+            addPiece(new Biz(Color.CYAN, i, 6), 6, i);
+            addPiece(new Biz(Color.RED, i, 1), 1, i);
         }
     }
 
