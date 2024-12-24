@@ -1,4 +1,6 @@
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Color;
 
 public class GameController {
@@ -49,7 +51,9 @@ public class GameController {
 
             // If the move is valid and the path is clear (for non-knight pieces)
             if (selectedSquare.getPiece().isValidMove(selectedSquare, square, board)) {
-                square.setPiece(selectedSquare.getPiece());
+                Piece movedPiece = selectedSquare.getPiece();
+                square.setPiece(movedPiece);
+                movedPiece.updatePosition(square.getXPos(), square.getYPos());
                 selectedSquare.setPiece(null);
                 resetSelectedSquareColor();
                 gameLogic.switchTurn(); // Rotate board and update display handled here
@@ -65,5 +69,37 @@ public class GameController {
         selectedSquare.setBackground(
                 (selectedSquare.getXPos() + selectedSquare.getYPos()) % 2 == 0 ? new Color(235, 236, 208)
                         : new Color(119, 149, 86)); // Reset color to original
+    }
+
+    // Load the game and re-attach action listeners
+    public void loadGame(GameState loadedState) {
+        // Set the turn and pieces based on the loaded state
+        gameLogic.setCurrentTurn(loadedState.getTurn());
+
+        for (Piece piece : loadedState.getPieces()) {
+            Square square = board.getSquare(piece.getXPos(), piece.getYPos());
+            square.setPiece(piece);
+        }
+
+        // Apply rotation based on the turn after loading the game
+        if (gameLogic.getCurrentTurn() % 2 == 1) {  // Odd turn = Blue's turn, rotate board
+            board.rotate();
+        }
+        
+        // After loading the game, add action listeners to squares again
+        addActionListeners();  // Re-bind action listeners to all squares
+    }
+    
+    public void saveGame() {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                Piece piece = board.getSquare(i, j).getPiece();
+                if (piece != null) {
+                    pieces.add(piece); // Add only non-null pieces to the list
+                }
+            }
+        }
+        Save.saveGame("savefile.txt", gameLogic, pieces);
     }
 }
