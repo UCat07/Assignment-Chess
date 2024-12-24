@@ -1,20 +1,20 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
 import java.util.List;
 
-// GameState.java (to encapsulate game state)
 class GameState {
-    private int turn;
-    private List<Piece> pieces;
+   private int turn;
+   private List<Piece> pieces;
 
-    public GameState(int turn, List<Piece> pieces) {
-        this.turn = turn;
-        this.pieces = pieces;
-    }
+   public GameState(int var1, List<Piece> var2) {
+      this.turn = var1;
+      this.pieces = var2;
+   }
 
-    public int getTurn() {
-        return turn;
-    }
+   public int getTurn() {
+      return this.turn;
+   }
 
-    public List<Piece> getPieces() {
-        return pieces;
-    }
+   public List<Piece> getPieces() {
+      return this.pieces;
+   }
 }
