@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Board {
     private Square[][] square;
@@ -8,6 +12,7 @@ public class Board {
     private JPanel boardPanel;
     private JFrame frame;
     private boolean rotated = false;
+    private GameLogic gameLogic;
 
     public Board() {
         square = new Square[height][width];
@@ -22,7 +27,7 @@ public class Board {
 
     public void initialize() {
         frame = new JFrame("Chess Simulator");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(500, 800);
 
         boardPanel = new JPanel();
@@ -36,9 +41,32 @@ public class Board {
             }
         }
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(
+                    frame,
+                    "Do you want to save the game before exiting?",
+                    "Exit Confirmation",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    // Perform the save operation
+                    Save.saveGame("savefile.txt", gameLogic, getAllPieces()); 
+                    System.exit(0); // Exit after saving
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    System.exit(0); // Exit without saving
+                }
+                // If CANCEL or close the dialog, do nothing
+            }
+        });
+
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
+
 
     public void setupInitialPieces() {
         // Add Ram
@@ -52,6 +80,18 @@ public class Board {
             addPiece(new Biz(Color.CYAN, i, 6), 6, i);
             addPiece(new Biz(Color.RED, i, 1), 1, i);
         }
+    }
+
+    public List<Piece> getAllPieces() {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (square[i][j].getPiece() != null) {
+                    pieces.add(square[i][j].getPiece());
+                }
+            }
+        }
+        return pieces;
     }
 
     public void updateBoardDisplay() {
@@ -113,5 +153,17 @@ public class Board {
             }
         }
         square = rotatedSquare;
+    }
+
+    public void setGameLogic(GameLogic gameLogic) {
+        this.gameLogic = gameLogic;
+    }
+
+    public void clear() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                square[i][j].setPiece(null); // Remove all pieces from the squares
+            }
+        }
     }
 }
