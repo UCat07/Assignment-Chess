@@ -53,8 +53,7 @@ public class Board {
                 );
 
                 if (choice == JOptionPane.YES_OPTION) {
-                    // Perform the save operation
-                    Save.saveGame("savefile.txt", gameLogic, getAllPieces()); 
+                    Save.saveGame("savefile.txt", gameLogic.getCurrentTurn(), gameLogic.isBlueTurn(), getAllPieces());
                     System.exit(0); // Exit after saving
                 } else if (choice == JOptionPane.NO_OPTION) {
                     System.exit(0); // Exit without saving
@@ -131,6 +130,9 @@ public class Board {
     }
 
     public Square getSquare(int y, int x) {
+        if (y < 0 || y >= height || x < 0 || x >= width) {
+            throw new IndexOutOfBoundsException("Coordinates out of bounds: (" + y + ", " + x + ")");
+        }
         return square[y][x];
     }
 
