@@ -14,6 +14,11 @@ abstract class Piece {
 
     // Serialize piece data to a string
     public String serialize() {
+        // Validate coordinates
+        if (x < 0 || x >= 5 || y < 0 || y >= 8) {
+            throw new IllegalArgumentException("Invalid coordinates: (" + x + ", " + y + ")");
+        }
+
         String colorStr = color == Color.RED ? "255, 0, 0" : "0, 255, 255"; // Red or Cyan
         return symbol + "," + colorStr + "," + x + "," + y;
     }
@@ -32,7 +37,12 @@ abstract class Piece {
 
         int x = Integer.parseInt(parts[4].trim());
         int y = Integer.parseInt(parts[5].trim());
-    
+        
+        // Validate coordinates before creating the piece
+        if (x < 0 || x >= 5 || y < 0 || y >= 8) {
+            throw new IllegalArgumentException("Invalid coordinates during deserialization: (" + x + ", " + y + ")");
+        }
+
         return ChessPieceFactory.createPiece(symbol, color, x, y);
     }
 
