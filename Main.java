@@ -1,58 +1,47 @@
-import javax.swing.JOptionPane;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Main {
-    public Main() {
-        // Prompt the user to load a saved game or start a new one
-        int choice = JOptionPane.showConfirmDialog(
-                null,
-                "Do you want to load the previous game?",
-                "Load Game",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        // Create the board
-        Board board = new Board();
-
-        // Create the game logic and associate it with the board
-        GameLogic gameLogic = new GameLogic(board);
-        board.setGameLogic(gameLogic);
-
-        if (choice == JOptionPane.YES_OPTION) {
-            // Attempt to load the saved game
-            GameState loadedState = Save.loadGame("savefile.txt");
-            if (loadedState != null) {
-                
-                // Restore the game state
-                board.clear();
-                
-                gameLogic.setCurrentTurn(loadedState.getTurn());
-                gameLogic.setBlueTurn(loadedState.isBlueTurn()); // Set blueTurn state
-                // Add pieces to the board
-                for (Piece piece : loadedState.getPieces()) {
-                    board.addPiece(piece, piece.getYPos(), piece.getXPos());
-                }
-                
-                // Update the board's display
-                board.updateBoardDisplay();
-
-                // Rotate the board if necessary (based on blueTurn)
-                if (!gameLogic.isBlueTurn()) {
-                    board.rotate();
-                }
-                
-                // After loading the game, reattach action listeners
-                GameController gameController = new GameController(board, gameLogic);
-                gameController.loadGame(loadedState);  // Call loadGame here to reset action listeners
-            } else {
-                JOptionPane.showMessageDialog(null, "No saved game found.");
-            }
-        } else {
-            // Create a new game if the user chose not to load a saved game
-            new GameController(board, gameLogic);  
-        }
-    }
-
     public static void main(String[] args) {
-        new Main(); // Instantiate Main to run the setup logic
+        // Create the board and game logic objects
+        Board board = new Board();
+        JLabel turnlabel = new JLabel("Turn:" + board.getTurn());
+        JLabel colorlabel = new JLabel("Player turn: Blue");
+        GameLogic gamelogic = new GameLogic(board);
+
+        BoardPanel boardGUI = new BoardPanel(board, gamelogic, turnlabel, colorlabel);
+
+        // Ask the user if they want to load a previous game
+        int loadOption = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "Load Game",
+                JOptionPane.YES_NO_OPTION);
+        if (loadOption == JOptionPane.YES_OPTION) {
+            // Load the previous game if the user selects Yes
+            gamelogic.loadGame("game.txt");
+            turnlabel.setText("Turn: " + board.getTurn());
+            colorlabel.setText("Player turn: " + (gamelogic.isBlueTurn() ? "Blue" : "Red"));
+        }
+
+        // Create the main frame
+        JFrame frame = new JFrame("Chess Board");
+        frame.setLayout(new BorderLayout());
+        frame.add(colorlabel, BorderLayout.SOUTH);
+        frame.add(turnlabel, BorderLayout.NORTH);
+        frame.add(boardGUI, BorderLayout.CENTER);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Prompt the user to save the game when closing
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int saveOption = JOptionPane.showConfirmDialog(null, "Do you want to save the current game?",
+                        "Save Game", JOptionPane.YES_NO_OPTION);
+                if (saveOption == JOptionPane.YES_OPTION) {
+                    gamelogic.saveGame("game.txt");
+                }
+            }
+        });
     }
 }
