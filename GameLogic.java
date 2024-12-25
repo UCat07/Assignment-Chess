@@ -3,19 +3,22 @@
 class GameLogic {
     private Board board;
     private boolean blueTurn;
-    private int currentTurn;
+    private int turn;
     private boolean rotated;
 
     public GameLogic(Board board) {
         this.board = board;
         this.blueTurn = true;
-        this.currentTurn = 1;
+        this.turn = 1;
         this.rotated = false;
     }
 
     public void switchTurn() {
         blueTurn = !blueTurn;
-        currentTurn++;
+        // Increment fullTurn only when Blue's turn starts
+        if (blueTurn) {
+            turn++;
+        }
         board.rotate(); // Rotate the board after each turn
         board.updateBoardDisplay();  // Notify GUI to update the visual display after rotation
         rotated = !rotated;  // Toggle rotation state
@@ -26,12 +29,16 @@ class GameLogic {
     }
 
     public int getCurrentTurn() {
-        return currentTurn;
+        return turn;
     }
 
     public void setCurrentTurn(int turn) {
-        this.currentTurn = turn;
-        this.blueTurn = (turn % 2 == 1); // Assuming odd turns are blue's turn
+        this.turn = turn;
+        this.blueTurn = true;
+    }
+
+    public void setBlueTurn(boolean blueTurn) {
+        this.blueTurn = blueTurn;
     }
 
 }
