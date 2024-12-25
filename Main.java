@@ -24,13 +24,9 @@ public class Main {
                 
                 // Restore the game state
                 board.clear();
-                gameLogic.setCurrentTurn(loadedState.getTurn());
                 
-                 // Apply the rotation based on the turn
-                if (loadedState.getTurn() % 2 == 1) { // If the turn is odd, rotate the board
-                    board.rotate();
-                }
-
+                gameLogic.setCurrentTurn(loadedState.getTurn());
+                gameLogic.setBlueTurn(loadedState.isBlueTurn()); // Set blueTurn state
                 // Add pieces to the board
                 for (Piece piece : loadedState.getPieces()) {
                     board.addPiece(piece, piece.getYPos(), piece.getXPos());
@@ -38,6 +34,11 @@ public class Main {
                 
                 // Update the board's display
                 board.updateBoardDisplay();
+
+                // Rotate the board if necessary (based on blueTurn)
+                if (!gameLogic.isBlueTurn()) {
+                    board.rotate();
+                }
                 
                 // After loading the game, reattach action listeners
                 GameController gameController = new GameController(board, gameLogic);
