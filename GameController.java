@@ -73,19 +73,31 @@ public class GameController {
 
     // Load the game and re-attach action listeners
     public void loadGame(GameState loadedState) {
+        board.clear();  // Clear all pieces from the board
         // Set the turn and pieces based on the loaded state
         gameLogic.setCurrentTurn(loadedState.getTurn());
+        gameLogic.setBlueTurn(loadedState.isBlueTurn()); // Set blueTurn state  
 
         for (Piece piece : loadedState.getPieces()) {
-            Square square = board.getSquare(piece.getXPos(), piece.getYPos());
-            square.setPiece(piece);
+            
+            int xPos = piece.getXPos();
+            int yPos = piece.getYPos();
+    
+            // Ensure the coordinates are within the board's bounds
+            if (xPos >= 0 && xPos < board.getWidth() && yPos >= 0 && yPos < board.getHeight()) {
+                Square square = board.getSquare(yPos, xPos); // Make sure to pass (y, x) since y is the row and x is the column
+                square.setPiece(piece);
+            } else {
+                // Log an error or handle invalid coordinates
+                System.out.println("Error: Piece at (" + xPos + ", " + yPos + ") is out of bounds!");
+            }
         }
 
         // Apply rotation based on the turn after loading the game
         if (gameLogic.getCurrentTurn() % 2 == 1) {  // Odd turn = Blue's turn, rotate board
-            board.rotate();
+        board.rotate();
         }
-        
+
         // After loading the game, add action listeners to squares again
         addActionListeners();  // Re-bind action listeners to all squares
     }
@@ -100,6 +112,6 @@ public class GameController {
                 }
             }
         }
-        Save.saveGame("savefile.txt", gameLogic, pieces);
+        Save.saveGame("savefile.txt", gameLogic.getCurrentTurn(), gameLogic.isBlueTurn(), pieces);
     }
 }
