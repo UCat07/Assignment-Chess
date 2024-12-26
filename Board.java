@@ -27,6 +27,9 @@ public class Board {
             square[1][i].setPiece(new Ram("RED"));
             square[6][i].setPiece(new Ram("BLUE"));
         }
+
+        square[2][2].setPiece(new Sau("RED"));
+        square[5][2].setPiece(new Sau("BLUE"));
     }
 
     public void movePiece(Square from, Square to) {
@@ -38,7 +41,7 @@ public class Board {
         if (to.getPiece() == null) {
             return false;
         } else {
-            return (from.getPiece().getColor() == to.getPiece().getColor());
+            return (from.getPiece().getColor().equals(to.getPiece().getColor()));
         }
     }
 
