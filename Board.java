@@ -1,3 +1,4 @@
+
 public class Board {
     private Square[][] square;
     private int height = 8;
@@ -21,9 +22,9 @@ public class Board {
     public void initializePiece() {
 
         square[0][0].setPiece(new Tor("RED"));
-        square[0][4].setPiece(new Tor("RED"));
+        square[0][4].setPiece(new Xor("RED"));
         square[7][4].setPiece(new Tor("BLUE"));
-        square[7][0].setPiece(new Tor("BLUE"));
+        square[7][0].setPiece(new Xor("BLUE"));
 
         square[0][2].setPiece(new Sau("RED"));
         square[7][2].setPiece(new Sau("BLUE"));
