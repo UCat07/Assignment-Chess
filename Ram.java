@@ -15,18 +15,26 @@ class Ram extends Piece {
 
         // Determine direction based on movingForward flag and color
         int direction = (getColor().equals("RED")) ? (movingForward ? 1 : -1)
-                                                       : (movingForward ? -1 : 1);
+                : (movingForward ? -1 : 1);
 
         // Ram moves forward or backward by 1 square in the same column
         if (endX == startX && endY == startY + direction) {
             // Check if the end square is empty
-            
-                // Toggle direction if reaching the edge
-                if ((endY == 0 || endY == 7) && !board.sameColor(start, end)) {
-                    movingForward = !movingForward; // Change direction
-                }
-                return true; // Valid move
+
+            // Toggle direction if reaching the edge
+            if ((endY == 0 || endY == 7) && !board.sameColor(start, end)) {
+                movingForward = !movingForward; // Change direction
+            }
+            return true; // Valid move
         }
         return false; // Invalid move
+    }
+
+    public void setMovingForward(boolean bool) {
+        movingForward = bool;
+    }
+
+    public boolean getMovingForward() {
+        return movingForward;
     }
 }
