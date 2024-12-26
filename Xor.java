@@ -1,9 +1,7 @@
-import java.awt.Color;
-
 public class Xor extends Piece {
 
-    public Xor(Color color, int x, int y) {
-        super("X", color, x, y); // "X" represents Xor
+    public Xor(String color) {
+        super("X", color); // "X" represents Xor
     }
 
     @Override
