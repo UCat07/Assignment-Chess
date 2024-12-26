@@ -43,8 +43,20 @@ class GameLogic {
                     Square square = board.getSquare(i, j);
                     Piece piece = square.getPiece();
                     if (piece != null) {
-                        writer.write(i + "," + j + "," + piece.getSymbol() + "," + piece.getColor());
-                        writer.newLine();
+                        if (piece instanceof Ram) {
+                            Ram ramPiece = (Ram) piece;
+                            writer.write(i + "," + j + "," + ramPiece.getSymbol() + "," + ramPiece.getColor() + ","
+                                    + String.valueOf(ramPiece.getMovingForward()));
+                            writer.newLine();
+                        } else if (piece instanceof Biz) {
+                            Biz bizPiece = (Biz) piece;
+                            writer.write(i + "," + j + "," + bizPiece.getSymbol() + "," + bizPiece.getColor());
+                            writer.newLine();
+                        } else if (piece instanceof Sau) {
+                            Sau sauPiece = (Sau) piece;
+                            writer.write(i + "," + j + "," + sauPiece.getSymbol() + "," + sauPiece.getColor());
+                            writer.newLine();
+                        }
                     }
                 }
             }
@@ -91,7 +103,10 @@ class GameLogic {
                 if (symbol.equals("Biz")) {
                     piece = new Biz(color);
                 } else if (symbol.equals("Ram")) {
-                    piece = new Ram(color);
+                    boolean movingForward = Boolean.parseBoolean(parts[4]);
+                    Ram rampiece = new Ram(color);
+                    rampiece.setMovingForward(movingForward);
+                    piece = rampiece;
                 } else if (symbol.equals("Sau")) {
                     piece = new Sau(color);
                 }
