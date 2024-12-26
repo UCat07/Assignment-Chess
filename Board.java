@@ -19,17 +19,26 @@ public class Board {
     }
 
     public void initializePiece() {
-        for (int i = 0; i < width; i++) {
-            square[0][i].setPiece(new Biz("RED"));
-            square[7][i].setPiece(new Biz("BLUE"));
-        }
+
+        square[0][0].setPiece(new Tor("RED"));
+        square[7][4].setPiece(new Tor("BLUE"));
+
+        square[0][4].setPiece(new Xor("RED"));
+        square[7][0].setPiece(new Xor("BLUE"));
+
+        square[0][2].setPiece(new Sau("RED"));
+        square[7][2].setPiece(new Sau("BLUE"));
+
+        square[0][1].setPiece(new Biz("RED"));
+        square[0][3].setPiece(new Biz("RED"));
+        square[7][1].setPiece(new Biz("BLUE"));
+        square[7][3].setPiece(new Biz("BLUE"));
+
         for (int i = 0; i < width; i++) {
             square[1][i].setPiece(new Ram("RED"));
             square[6][i].setPiece(new Ram("BLUE"));
         }
 
-        square[2][2].setPiece(new Sau("RED"));
-        square[5][2].setPiece(new Sau("BLUE"));
     }
 
     public void movePiece(Square from, Square to) {
@@ -65,11 +74,11 @@ public class Board {
         turn++;
     }
 
-    public int getTurn(){
+    public int getTurn() {
         return turn;
     }
 
-    public void setTurn(int turn){
+    public void setTurn(int turn) {
         this.turn = turn;
     }
 }
