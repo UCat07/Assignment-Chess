@@ -44,28 +44,23 @@ class GameLogic {
                     Piece piece = square.getPiece();
                     if (piece != null) {
                         if (piece instanceof Ram) {
-                            System.out.println("Enter Ram success");
                             Ram ramPiece = (Ram) piece;
                             writer.write(i + "," + j + "," + ramPiece.getSymbol() + "," + ramPiece.getColor() + ","
                                     + String.valueOf(ramPiece.getMovingForward()));
                             writer.newLine();
                         } else if (piece instanceof Biz) {
-                            System.out.println("Enter Biz success");
                             Biz bizPiece = (Biz) piece;
                             writer.write(i + "," + j + "," + bizPiece.getSymbol() + "," + bizPiece.getColor());
                             writer.newLine();
                         } else if (piece instanceof Sau) {
-                            System.out.println("Enter Sau success");
                             Sau sauPiece = (Sau) piece;
                             writer.write(i + "," + j + "," + sauPiece.getSymbol() + "," + sauPiece.getColor());
                             writer.newLine();
                         } else if (piece instanceof Xor) {
-                            System.out.println("Enter Xor success");
                             Xor xorPiece = (Xor) piece;
                             writer.write(i + "," + j + "," + xorPiece.getSymbol() + "," + xorPiece.getColor());
                             writer.newLine();
                         } else if (piece instanceof Tor) {
-                            System.out.println("Enter Tor success");
                             Tor torPiece = (Tor) piece;
                             writer.write(i + "," + j + "," + torPiece.getSymbol() + "," + torPiece.getColor());
                             writer.newLine();
