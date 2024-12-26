@@ -1,7 +1,7 @@
 public class Xor extends Piece {
 
     public Xor(String color) {
-        super("X", color); // "X" represents Xor
+        super("Xor", color); // "X" represents Xor
     }
 
     @Override
