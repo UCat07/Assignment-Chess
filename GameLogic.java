@@ -92,6 +92,8 @@ class GameLogic {
                     piece = new Biz(color);
                 } else if (symbol.equals("Ram")) {
                     piece = new Ram(color);
+                } else if (symbol.equals("Sau")) {
+                    piece = new Sau(color);
                 }
 
                 if (piece != null) {
