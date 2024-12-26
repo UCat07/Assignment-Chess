@@ -10,9 +10,12 @@ class GameLogic {
     }
 
     public void switchTurn() {
+        if(!blueTurn) {
+            board.addTurn();
+            handlePieceAlternation();
+        }
         blueTurn = !blueTurn;
         rotated = !rotated;
-        board.addTurn();
     }
 
     public boolean isBlueTurn() {
@@ -21,6 +24,14 @@ class GameLogic {
 
     public boolean isRotated() {
         return rotated;
+    }
+
+    public void handlePieceAlternation() {
+        for (int i = 0; i < board.getHeight(); i++) {
+            for (int j = 0; j < board.getWidth(); j++) {
+                board.toggleTorXor(i, j);
+            }
+        }
     }
 
     public void saveGame(String fileName) {
