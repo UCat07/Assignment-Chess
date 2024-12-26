@@ -21,10 +21,9 @@ public class Board {
     public void initializePiece() {
 
         square[0][0].setPiece(new Tor("RED"));
+        square[0][4].setPiece(new Tor("RED"));
         square[7][4].setPiece(new Tor("BLUE"));
-
-        square[0][4].setPiece(new Xor("RED"));
-        square[7][0].setPiece(new Xor("BLUE"));
+        square[7][0].setPiece(new Tor("BLUE"));
 
         square[0][2].setPiece(new Sau("RED"));
         square[7][2].setPiece(new Sau("BLUE"));
@@ -40,6 +39,19 @@ public class Board {
         }
 
     }
+
+    public void toggleTorXor(int y, int x) {
+    Square square = getSquare(y, x);
+    Piece currentPiece = square.getPiece();
+
+    if (currentPiece instanceof Tor && getTurn() % 4 == 2) {
+        // Change Tor to Xor after 2 turns
+        square.setPiece(new Xor(currentPiece.getColor()));
+    } else if (currentPiece instanceof Xor && getTurn() % 4 == 0) {
+        // Change Xor to Tor after 2 more turns
+        square.setPiece(new Tor(currentPiece.getColor()));
+    }
+}
 
     public void movePiece(Square from, Square to) {
         to.setPiece(from.getPiece());
