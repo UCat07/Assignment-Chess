@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class BoardPanel extends JPanel {
@@ -8,6 +11,7 @@ public class BoardPanel extends JPanel {
     private Square clickedSquare = null;
     private JLabel turnlabel;
     private JLabel colorlabel;
+    private Image image;
 
     public BoardPanel(Board board, GameLogic gamelogic, JLabel turnlabel, JLabel colorlabel) {
         this.board = board;
@@ -99,17 +103,84 @@ public class BoardPanel extends JPanel {
                 // Draw the piece if present
                 Piece piece = square.getPiece();
                 if (piece != null) {
-                    g.setColor(piece.getColor().equals("RED") ? Color.RED : Color.BLUE);
-                    g.setFont(new Font("Arial", Font.BOLD, squareSize / 2));
-                    FontMetrics metrics = g.getFontMetrics();
-                    String symbol = piece.getSymbol();
+                    ImagePanel(piece);
+                    Image scaledImage = image.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
+                    g.drawImage(scaledImage, x, y, this); // Draw the scaled image at the (x, y) position
 
-                    // Center the symbol within the square
-                    int textX = x + (squareSize - metrics.stringWidth(symbol)) / 2;
-                    int textY = y + ((squareSize - metrics.getHeight()) / 2) + metrics.getAscent();
-                    g.drawString(symbol, textX, textY);
                 }
             }
+        }
+    }
+
+    public void ImagePanel(Piece piece) {
+        try {
+            if (!gamelogic.isRotated()) {
+                if (piece instanceof Ram && piece.getColor().equals("RED")) {
+                    Ram rampiece = (Ram) piece;
+                    if (rampiece.getMovingForward()) {
+                        image = ImageIO.read(new File("Piece PNG/Ram Red.png"));
+                    } else {
+                        image = ImageIO.read(new File("Piece PNG/Ram Red Rotated.png"));
+                    }
+                } else if (piece instanceof Sau && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Sau Red.png"));
+                } else if (piece instanceof Biz && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Biz Red.png"));
+                } else if (piece instanceof Tor && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Tor Red.png"));
+                } else if (piece instanceof Xor && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Xor Red.png"));
+                } else if (piece instanceof Ram && piece.getColor().equals("BLUE")) {
+                    Ram rampiece = (Ram) piece;
+                    if (rampiece.getMovingForward()) {
+                        image = ImageIO.read(new File("Piece PNG/Ram Blue.png"));
+                    } else {
+                        image = ImageIO.read(new File("Piece PNG/Ram Blue Rotated.png"));
+                    }
+                } else if (piece instanceof Sau && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Sau Blue.png"));
+                } else if (piece instanceof Biz && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Biz Blue.png"));
+                } else if (piece instanceof Tor && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Tor Blue.png"));
+                } else if (piece instanceof Xor && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Xor Blue.png"));
+                }
+            } else {
+                if (piece instanceof Ram && piece.getColor().equals("RED")) {
+                    Ram rampiece = (Ram) piece;
+                    if (rampiece.getMovingForward()) {
+                        image = ImageIO.read(new File("Piece PNG/Ram Red Rotated.png"));
+                    } else {
+                        image = ImageIO.read(new File("Piece PNG/Ram Red.png"));
+                    }
+                } else if (piece instanceof Sau && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Sau Red Rotated.png"));
+                } else if (piece instanceof Biz && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Biz Red Rotated.png"));
+                } else if (piece instanceof Tor && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Tor Red Rotated.png"));
+                } else if (piece instanceof Xor && piece.getColor().equals("RED")) {
+                    image = ImageIO.read(new File("Piece PNG/Xor Red Rotated.png"));
+                } else if (piece instanceof Ram && piece.getColor().equals("BLUE")) {
+                    Ram rampiece = (Ram) piece;
+                    if (rampiece.getMovingForward()) {
+                        image = ImageIO.read(new File("Piece PNG/Ram Blue Rotated.png"));
+                    } else {
+                        image = ImageIO.read(new File("Piece PNG/Ram Blue.png"));
+                    }
+                } else if (piece instanceof Sau && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Sau Blue Rotated.png"));
+                } else if (piece instanceof Biz && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Biz Blue Rotated.png"));
+                } else if (piece instanceof Tor && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Tor Blue Rotated.png"));
+                } else if (piece instanceof Xor && piece.getColor().equals("BLUE")) {
+                    image = ImageIO.read(new File("Piece PNG/Xor Blue Rotated.png"));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
