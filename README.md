@@ -2,3 +2,4 @@
 Starting File is Main.java
 Save and load function at GameLogic.java .
 放兵在Board.java .
+Aban，color已经从data type Color换去用String了，新的棋子你换一下
