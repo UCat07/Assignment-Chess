@@ -1,9 +1,7 @@
-import java.awt.Color;
-
 public class Tor extends Piece {
 
-    public Tor(Color color, int x, int y) {
-        super("T", color, x, y); // "T" represents Tor
+    public Tor(String color) {
+        super("Tor", color); // "T" represents Tor
     }
 
     @Override
