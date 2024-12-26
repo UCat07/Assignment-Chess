@@ -1,11 +1,9 @@
-import java.awt.Color;
-
 class Ram extends Piece {
     private boolean movingForward;
 
-    public Ram(Color color, int x, int y) {
-        super("R", color, x, y);
-        this.movingForward = true; // Initial moving forward
+    public Ram(String color) {
+        super("Ram", color);
+        this.movingForward = true; // Initial direction is forward
     }
 
     @Override
@@ -16,7 +14,7 @@ class Ram extends Piece {
         int endY = end.getYPos();
 
         // Determine direction based on movingForward flag and color
-        int direction = (getColor().equals(Color.RED)) ? (movingForward ? 1 : -1)
+        int direction = (getColor().equals("RED")) ? (movingForward ? 1 : -1)
                                                        : (movingForward ? -1 : 1);
 
         // Ram moves forward or backward by 1 square in the same column
@@ -24,7 +22,7 @@ class Ram extends Piece {
             // Check if the end square is empty
             
                 // Toggle direction if reaching the edge
-                if (endY == 0 || endY == 7) {
+                if ((endY == 0 || endY == 7) && !board.sameColor(start, end)) {
                     movingForward = !movingForward; // Change direction
                 }
                 return true; // Valid move
