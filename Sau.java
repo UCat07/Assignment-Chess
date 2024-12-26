@@ -1,9 +1,7 @@
-import java.awt.Color;
-
 public class Sau extends Piece {
 
-    public Sau(Color color, int x, int y) {
-        super("S", color, x, y); // "S" represents Sau
+    public Sau(Color color) {
+        super("Sau", color); // "S" represents Sau
     }
 
     @Override
