@@ -1,8 +1,6 @@
-import java.awt.Color;
-
 class Biz extends Piece {
-    public Biz(Color color, int x, int y) {
-        super("B", color, x, y);
+    public Biz(String color) {
+        super("Biz", color);
     }
 
     @Override
