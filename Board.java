@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 
 public class Board {
     private Square[][] square;
@@ -42,21 +43,37 @@ public class Board {
     }
 
     public void toggleTorXor(int y, int x) {
-    Square square = getSquare(y, x);
-    Piece currentPiece = square.getPiece();
+        Square square = getSquare(y, x);
+        Piece currentPiece = square.getPiece();
 
-    if (currentPiece instanceof Tor && getTurn() % 4 == 2) {
-        // Change Tor to Xor after 2 turns
-        square.setPiece(new Xor(currentPiece.getColor()));
-    } else if (currentPiece instanceof Xor && getTurn() % 4 == 0) {
-        // Change Xor to Tor after 2 more turns
-        square.setPiece(new Tor(currentPiece.getColor()));
+        if (currentPiece instanceof Tor && getTurn() % 4 == 2) {
+            // Change Tor to Xor after 2 turns
+            square.setPiece(new Xor(currentPiece.getColor()));
+        } else if (currentPiece instanceof Xor && getTurn() % 4 == 0) {
+            // Change Xor to Tor after 2 more turns
+            square.setPiece(new Tor(currentPiece.getColor()));
+        }
     }
-}
 
     public void movePiece(Square from, Square to) {
-        to.setPiece(from.getPiece());
+        Piece movingPiece = from.getPiece();
+        Piece targetPiece = to.getPiece();
+
+        // Check if the target piece is a Sau
+        if (targetPiece instanceof Sau) {
+            String winner = targetPiece.getColor().equals("RED") ? "Blue" : "Red";
+            endGame(winner);
+            return;
+        }
+
+        to.setPiece(movingPiece);
         from.setPiece(null);
+    }
+
+    private void endGame(String winner) {
+        JOptionPane.showMessageDialog(null, winner + " wins! Game over.");
+
+        System.exit(0);
     }
 
     public Boolean sameColor(Square from, Square to) {
