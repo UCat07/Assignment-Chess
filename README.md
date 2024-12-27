@@ -14,3 +14,6 @@ Update GameLogic.java
 
 Update BoardPanel.java
 - not using text anymore, use png to represent pieces
+
+Update Board
+- modify movePiece to add end game function
