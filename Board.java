@@ -4,7 +4,7 @@ public class Board {
     private Square[][] square;
     private int height = 8;
     private int width = 5;
-    private int turn = 0;
+    private int turn = 1;
 
     public Board() {
         initializeSquare();
@@ -46,10 +46,10 @@ public class Board {
         Square square = getSquare(y, x);
         Piece currentPiece = square.getPiece();
 
-        if (currentPiece instanceof Tor && getTurn() % 4 == 2) {
+        if (currentPiece instanceof Tor && (getTurn() - 1) % 4 == 2) {
             // Change Tor to Xor after 2 turns
             square.setPiece(new Xor(currentPiece.getColor()));
-        } else if (currentPiece instanceof Xor && getTurn() % 4 == 0) {
+        } else if (currentPiece instanceof Xor && (getTurn() - 1) % 4 == 0) {
             // Change Xor to Tor after 2 more turns
             square.setPiece(new Tor(currentPiece.getColor()));
         }
