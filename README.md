@@ -17,3 +17,4 @@ Update BoardPanel.java
 
 Update Board
 - modify movePiece to add end game function
+- change turn start from 1 and edit toogleTorXor
