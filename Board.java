@@ -75,11 +75,11 @@ public class Board {
         Square square = getSquare(y, x);
         Piece currentPiece = square.getPiece();
 
-        if (currentPiece instanceof Tor && (getTurn() - 1) % 4 == 2) {
+        if (currentPiece instanceof Tor && (getTurn() - 1) % 2 == 0) {
             // Change Tor to Xor after 2 turns
             square.setPiece(new Xor(currentPiece.getColor()));
-        } else if (currentPiece instanceof Xor && (getTurn() - 1) % 4 == 0) {
-            // Change Xor to Tor after 2 more turns
+        } else if (currentPiece instanceof Xor && (getTurn() - 1) % 2 == 0) {
+            // Change Xor to Tor after 2 turns
             square.setPiece(new Tor(currentPiece.getColor()));
         }
     }
