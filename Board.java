@@ -4,6 +4,8 @@ import javax.swing.JOptionPane;
  * The Board class represents the game board for the chess-like game.
  * It manages the squares, pieces, and game turns.
  * This class is part of the MVC pattern and acts as the model.
+ * 
+ * Author: Soo Wei Zhen, Ban Jue Ye
  */
 public class Board {
     private Square[][] square;
@@ -13,6 +15,7 @@ public class Board {
 
     /**
      * Constructor to initialize the board with squares and initial pieces.
+     * Author: Soo Wei Zhen
      */
     public Board() {
         initializeSquare();
@@ -22,6 +25,7 @@ public class Board {
     /**
      * Initializes the squares on the board.
      * Each square is represented as an instance of the Square class.
+     * Author: Soo Wei Zhen
      */
     public void initializeSquare() {
         square = new Square[height][width];
@@ -34,6 +38,7 @@ public class Board {
 
     /**
      * Places initial pieces on the board at their starting positions.
+     * Author: Soo Wei Zhen, Ban Jue Ye
      */
     public void initializePiece() {
         // Place Tor and Xor pieces
@@ -64,6 +69,7 @@ public class Board {
      * Toggles a Tor piece to Xor and vice versa based on the turn count.
      * @param from The square where the piece is currently located.
      * @param to The square where the piece will be moved.
+     * Author: Ban Jue Ye
      */
     public void toggleTorXor(int y, int x) {
         Square square = getSquare(y, x);
@@ -83,6 +89,7 @@ public class Board {
      * Ends the game if the Sau piece is captured.
      * @param from The square where the piece is currently located.
      * @param to The square where the piece will be moved.
+     * Author: Soo Wei Zhen, Ban Jue Ye
      */
     public void movePiece(Square from, Square to) {
         Piece movingPiece = from.getPiece();
@@ -102,6 +109,7 @@ public class Board {
     /**
      * Ends the game with a message showing the winner.
      * @param winner The color of the winning player.
+     * Author: Soo Wei Zhen
      */
     private void endGame(String winner) {
         JOptionPane.showMessageDialog(null, winner + " wins! Game over.");
@@ -114,6 +122,7 @@ public class Board {
      * @param from The first square.
      * @param to The second square.
      * @return True if both pieces are of the same color, false otherwise.
+     * Author: Soo Wei Zhen
      */
     public Boolean sameColor(Square from, Square to) {
         if (to.getPiece() == null) {
@@ -128,6 +137,7 @@ public class Board {
      * @param piece The piece to place.
      * @param y The y-coordinate of the square.
      * @param x The x-coordinate of the square.
+     * Author: Soo Wei Zhen
      */
     public void setSquarePiece(Piece piece, int y, int x) {
         square[y][x].setPiece(piece);
@@ -138,6 +148,7 @@ public class Board {
      * @param y The y-coordinate of the square.
      * @param x The x-coordinate of the square.
      * @return The piece at the square.
+     * Author: Soo Wei Zhen
      */
     public Square getSquare(int y, int x) {
         return square[y][x];
@@ -145,6 +156,7 @@ public class Board {
 
     /**
      * @return The height of the board.
+     * Author: Soo Wei Zhen
      */
     public int getHeight() {
         return height;
@@ -152,6 +164,7 @@ public class Board {
 
     /**
      * @return The width of the board.
+     * Author: Soo Wei Zhen
      */
     public int getWidth() {
         return width;
@@ -159,6 +172,7 @@ public class Board {
 
     /**
      * Increments the turn count.
+     * Author: Soo Wei Zhen
      */
     public void addTurn() {
         turn++;
@@ -166,6 +180,7 @@ public class Board {
 
     /**
      * @return The current turn count.
+     * Author: Soo Wei Zhen
      */
     public int getTurn() {
         return turn;
@@ -174,6 +189,7 @@ public class Board {
     /**
      * Sets the turn count.
      * @param turn The turn count to set.
+     * Author: Soo Wei Zhen
      */
     public void setTurn(int turn) {
         this.turn = turn;
