@@ -1,6 +1,6 @@
 public class Sau extends Piece {
 
-    public Sau(Color color) {
+    public Sau(String color) {
         super("Sau", color); // "S" represents Sau
     }
 
