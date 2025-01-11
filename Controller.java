@@ -11,7 +11,7 @@ import javax.swing.*;
  * accordingly. This class interacts with the Board and GameLogic classes to
  * implement the game's behavior.
  * 
- * Author: Soo Wei Zhen
+ * Author: Soo Wei Zhen, Siao Wei Cheng
  */
 public class Controller extends JPanel {
     private Board board; // Represents the game board with its squares.
