@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- * The BoardPanel class is responsible for rendering the game board on the GUI.
+ * The Controller class is responsible for rendering the game board on the GUI.
  * It handles user interactions, such as mouse clicks, and updates the board state
  * accordingly. This class interacts with the Board and GameLogic classes to
  * implement the game's behavior.
  * 
  * Author: Soo Wei Zhen
  */
-public class BoardPanel extends JPanel {
+public class Controller extends JPanel {
     private Board board; // Represents the game board with its squares.
     private GameLogic gamelogic; // Manages game rules and player turns.
     private Square clickedSquare = null; // Tracks the currently selected square.
@@ -22,13 +22,13 @@ public class BoardPanel extends JPanel {
     private Image image; // Holds the piece image for rendering.
 
     /**
-     * Constructs a BoardPanel with the given board, game logic, and labels.
+     * Constructs a Controller with the given board, game logic, and labels.
      * @param board the game board object
      * @param gamelogic the game logic object
      * @param turnlabel the label displaying the current turn
      * @param colorlabel the label displaying the current player's color
      */
-    public BoardPanel(Board board, GameLogic gamelogic, JLabel turnlabel, JLabel colorlabel) {
+    public Controller(Board board, GameLogic gamelogic, JLabel turnlabel, JLabel colorlabel) {
         this.board = board;
         this.gamelogic = gamelogic;
         this.turnlabel = turnlabel;
