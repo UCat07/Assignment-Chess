@@ -1,14 +1,28 @@
 import java.io.*;
 
+/**
+ * The GameLogic class handles the game rules, player turns, and board state rotation.
+ * It ensures that the game progresses correctly and alternates turns between players.
+ * 
+ * Author: Soo Wei Zhen, Ban Jue Ye
+ */
 class GameLogic {
     private Board board;
-    private boolean blueTurn = true;
-    private boolean rotated = false;
+    private boolean blueTurn = true; // Tracks whether it's the blue player's turn.
+    private boolean rotated = false; // Indicates whether the board is currently rotated.
 
+    /**
+     * Constructs a GameLogic instance and initializes the first turn to Blue.
+     * Author: Soo Wei Zhen
+     */
     public GameLogic(Board board) {
         this.board = board;
     }
 
+    /**
+     * Switches the turn to the other player.
+     * Author: Soo Wei Zhen, Ban Jue Ye
+     */
     public void switchTurn() {
         if(!blueTurn) {
             board.addTurn();
@@ -18,14 +32,28 @@ class GameLogic {
         rotated = !rotated;
     }
 
+    /**
+     * Checks if it's the blue player's turn.
+     * @return true if it's Blue's turn, false otherwise.
+     * Author: Soo Wei Zhen
+     */
     public boolean isBlueTurn() {
         return blueTurn;
     }
 
+    /**
+     * Checks if the board is currently rotated.
+     * @return true if the board is rotated, false otherwise.
+     * Author: Soo Wei Zhen
+     */
     public boolean isRotated() {
         return rotated;
     }
 
+    /**
+     * Handles the alternation of pieces on the board.
+     * Author: Ban Jue Ye
+     */
     public void handlePieceAlternation() {
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
@@ -34,6 +62,13 @@ class GameLogic {
         }
     }
 
+    /**
+     * Checks if the move is valid based on the piece's rules.
+     * @param start Starting square.
+     * @param end Ending square.
+     * @return true if the move is valid, false otherwise.
+     * Author: Soo Wei Zhen
+     */
     public void saveGame(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             // Save turn
@@ -84,6 +119,11 @@ class GameLogic {
         }
     }
 
+    /**
+     * Loads the game state from a file.
+     * @param fileName Name of the file to load the game state from.
+     * Author: Soo Wei Zhen
+     */
     public void loadGame(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
