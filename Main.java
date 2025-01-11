@@ -18,7 +18,7 @@ public class Main {
         JLabel colorlabel = new JLabel("Player turn: Blue");
         GameLogic gamelogic = new GameLogic(board);
 
-        BoardPanel boardGUI = new BoardPanel(board, gamelogic, turnlabel, colorlabel);
+        Controller boardGUI = new Controller(board, gamelogic, turnlabel, colorlabel);
 
         // Ask the user if they want to load a previous game
         int loadOption = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "Load Game",
