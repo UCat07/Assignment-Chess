@@ -4,7 +4,7 @@ import java.io.*;
  * The GameLogic class handles the game rules, player turns, and board state rotation.
  * It ensures that the game progresses correctly and alternates turns between players.
  * 
- * Author: Soo Wei Zhen, Ban Jue Ye
+ * Author: Siao Wei Cheng, Ban Jue Ye
  */
 class GameLogic {
     private Board board;
@@ -13,7 +13,7 @@ class GameLogic {
 
     /**
      * Constructs a GameLogic instance and initializes the first turn to Blue.
-     * Author: Soo Wei Zhen
+     * Author: Siao Wei Cheng
      */
     public GameLogic(Board board) {
         this.board = board;
@@ -21,7 +21,7 @@ class GameLogic {
 
     /**
      * Switches the turn to the other player.
-     * Author: Soo Wei Zhen, Ban Jue Ye
+     * Author: Siao Wei Cheng, Ban Jue Ye
      */
     public void switchTurn() {
         if(!blueTurn) {
@@ -35,7 +35,7 @@ class GameLogic {
     /**
      * Checks if it's the blue player's turn.
      * @return true if it's Blue's turn, false otherwise.
-     * Author: Soo Wei Zhen
+     * Author: Siao Wei Cheng
      */
     public boolean isBlueTurn() {
         return blueTurn;
@@ -44,7 +44,7 @@ class GameLogic {
     /**
      * Checks if the board is currently rotated.
      * @return true if the board is rotated, false otherwise.
-     * Author: Soo Wei Zhen
+     * Author: Siao Wei Cheng
      */
     public boolean isRotated() {
         return rotated;
@@ -67,7 +67,7 @@ class GameLogic {
      * @param start Starting square.
      * @param end Ending square.
      * @return true if the move is valid, false otherwise.
-     * Author: Soo Wei Zhen
+     * Author: Siao Wei Cheng
      */
     public void saveGame(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -122,7 +122,7 @@ class GameLogic {
     /**
      * Loads the game state from a file.
      * @param fileName Name of the file to load the game state from.
-     * Author: Soo Wei Zhen
+     * Author: Siao Wei Cheng
      */
     public void loadGame(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
