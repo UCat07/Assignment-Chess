@@ -1,9 +1,31 @@
+
+/**
+ * Constructor to initialize a Xor piece with a color.
+ * @param color Color of the Xor piece.
+ * The Xor piece moves diagonally, meaning it can move across both rows and columns 
+ * simultaneously, with the absolute difference in the x and y coordinates being equal.
+ * This class follows the Strategy design pattern, where the isValidMove method 
+ * defines the specific movement rules for this piece.
+ * 
+ * Author: Ban Jue Ye
+ **/
 public class Xor extends Piece {
 
+    /**
+     * Constructor to initialize a Xor piece with a color.
+     * @param color Color of the Xor piece.
+     */
     public Xor(String color) {
-        super("Xor", color); // "X" represents Xor
+        super("Xor", color);
     }
 
+    /**
+     * Checks if the Xor's move is valid based on its custom rules.
+     * @param start Starting square.
+     * @param end Ending square.
+     * @param board Current game board.
+     * @return True if the move is valid, false otherwise.
+     */
     @Override
     public boolean isValidMove(Square start, Square end, Board board) {
         int startX = start.getXPos();
@@ -40,6 +62,6 @@ public class Xor extends Piece {
             return true; // Capture an enemy piece
         }
 
-        return false; // Invalid move (friendly piece in the way)
+        return false; // Invalid move (same color piece blocking the path)
     }
 }
