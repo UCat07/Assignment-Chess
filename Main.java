@@ -2,6 +2,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * Main class to initialize and manage the Chess Board game.
+ * Handles GUI setup and integrates game logic.
+ * Part of the Model-View-Controller (MVC) design pattern.
+ * - This class acts as the "Controller".
+ * 
+ * Author: Soo Wei Zhen, Siao Wei Cheng
+ */
 public class Main {
     public static void main(String[] args) {
         // Create the board and game logic objects
