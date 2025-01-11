@@ -25,7 +25,7 @@ public class Main {
                 JOptionPane.YES_NO_OPTION);
         if (loadOption == JOptionPane.YES_OPTION) {
             // Load the previous game if the user selects Yes
-            gamelogic.loadGame("game.txt");
+            gamelogic.loadGame("save.txt");
             turnlabel.setText("Turn: " + board.getTurn());
             colorlabel.setText("Player turn: " + (gamelogic.isBlueTurn() ? "Blue" : "Red"));
         }
@@ -47,7 +47,7 @@ public class Main {
                 int saveOption = JOptionPane.showConfirmDialog(null, "Do you want to save the current game?",
                         "Save Game", JOptionPane.YES_NO_OPTION);
                 if (saveOption == JOptionPane.YES_OPTION) {
-                    gamelogic.saveGame("game.txt");
+                    gamelogic.saveGame("save.txt");
                 }
             }
         });
