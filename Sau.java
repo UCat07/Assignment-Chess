@@ -1,9 +1,26 @@
+/**
+     * Constructor to initialize a Sau piece with a color.
+     * @param color Color of the Sau piece.
+     * 
+     * Author: Ban Jue Ye
+     */
 public class Sau extends Piece {
 
+    /**
+     * Constructor to initialize a Sau piece with a color.
+     * @param color Color of the Sau piece.
+     */
     public Sau(String color) {
-        super("Sau", color); // "S" represents Sau
+        super("Sau", color); 
     }
 
+    /**
+     * Checks if the Sau's move is valid based on its custom rules.
+     * @param start Starting square.
+     * @param end Ending square.
+     * @param board Current game board.
+     * @return True if the move is valid, false otherwise.
+     */
     @Override
     public boolean isValidMove(Square start, Square end, Board board) {
         int startX = start.getXPos();
