@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -20,7 +22,7 @@ public class Controller extends JPanel {
     private JLabel turnlabel; // Label displaying the current turn.
     private JLabel colorlabel; // Label displaying the current player's color.
     private Image image; // Holds the piece image for rendering.
-
+    private List<Square> validMoves = new ArrayList<>(); // To store valid moves
     /**
      * Constructs a Controller with the given board, game logic, and labels.
      * @param board the game board object
@@ -61,6 +63,18 @@ public class Controller extends JPanel {
                             ((gamelogic.isBlueTurn() && "BLUE".equals(square.getPiece().getColor())) ||
                                     (!gamelogic.isBlueTurn() && "RED".equals(square.getPiece().getColor())))) {
                         clickedSquare = square;
+                        validMoves.clear();
+
+                        // Calculate valid moves
+                        for (int row = 0; row < board.getHeight(); row++) {
+                            for (int col = 0; col < board.getWidth(); col++) {
+                                Square targetSquare = board.getSquare(row, col);
+                                if (square.getPiece().isValidMove(square, targetSquare, board) &&
+                                        !board.sameColor(square, targetSquare)) {
+                                    validMoves.add(targetSquare);
+                                }
+                            }
+                        }
                         repaint();
                     }
                 } else {
@@ -72,6 +86,7 @@ public class Controller extends JPanel {
                         labelchange();
                     }
                     clickedSquare = null;
+                    validMoves.clear();
                     repaint();
                 }
             }
@@ -111,7 +126,6 @@ public class Controller extends JPanel {
                 Square square = board.getSquare(i, j); // i, j for actual board logic
 
                 // Determine the color of the square
-
                 Color squareColor = ((i + j) % 2 == 0) ? new Color(235, 236, 208) : new Color(119, 149, 86);
                 g.setColor(squareColor);
 
@@ -120,10 +134,19 @@ public class Controller extends JPanel {
                     g.setColor(Color.YELLOW);
                 }
 
+                // Highlight valid moves
+                if (validMoves.contains(square)) {
+                    g.setColor(Color.YELLOW); 
+                }
+
                 // Calculate the x, y position based on drawRow and drawCol
                 int x = drawCol * squareSize;
                 int y = drawRow * squareSize;
                 g.fillRect(x, y, squareSize, squareSize);
+
+                // Draw the outline for the square
+                g.setColor(Color.BLACK); // Black outline
+                g.drawRect(x, y, squareSize, squareSize);
 
                 // Draw the piece if present
                 Piece piece = square.getPiece();
