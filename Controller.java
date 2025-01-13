@@ -109,7 +109,16 @@ public class Controller extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // Calculate the size of each square
         int squareSize = Math.min(getWidth() / board.getWidth(), getHeight() / board.getHeight());
+
+        // Calculate the dimensions of the board
+        int boardWidth = squareSize * board.getWidth();
+        int boardHeight = squareSize * board.getHeight();
+
+        // Calculate the starting x, y coordinates to center the board
+        int startX = (getWidth() - boardWidth) / 2;
+        int startY = (getHeight() - boardHeight) / 2;
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
@@ -129,32 +138,22 @@ public class Controller extends JPanel {
                 Color squareColor = ((i + j) % 2 == 0) ? new Color(235, 236, 208) : new Color(119, 149, 86);
                 g.setColor(squareColor);
 
-                // Highlight the clicked square.
+                // Highlight the clicked square
                 if (clickedSquare != null && clickedSquare == square) {
                     g.setColor(Color.YELLOW);
                 }
 
-                // Highlight valid moves
-                if (validMoves.contains(square)) {
-                    g.setColor(Color.YELLOW); 
-                }
-
-                // Calculate the x, y position based on drawRow and drawCol
-                int x = drawCol * squareSize;
-                int y = drawRow * squareSize;
+                // Calculate the x, y position based on drawRow and drawCol, and offset by startX and startY
+                int x = startX + drawCol * squareSize;
+                int y = startY + drawRow * squareSize;
                 g.fillRect(x, y, squareSize, squareSize);
-
-                // Draw the outline for the square
-                g.setColor(Color.BLACK); // Black outline
-                g.drawRect(x, y, squareSize, squareSize);
 
                 // Draw the piece if present
                 Piece piece = square.getPiece();
                 if (piece != null) {
-                    ImagePanel(piece);
+                    ImagePanel(piece); // Assuming this is how you get the image of the piece
                     Image scaledImage = image.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
                     g.drawImage(scaledImage, x, y, this); // Draw the scaled image at the (x, y) position
-
                 }
             }
         }
