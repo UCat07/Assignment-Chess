@@ -9,7 +9,8 @@ import javax.swing.*;
 
 /**
  * The Controller class is responsible for rendering the game board on the GUI.
- * It handles user interactions, such as mouse clicks, and updates the board state
+ * It handles user interactions, such as mouse clicks, and updates the board
+ * state
  * accordingly. This class interacts with the Board and GameLogic classes to
  * implement the game's behavior.
  * 
@@ -22,12 +23,15 @@ public class Controller extends JPanel {
     private JLabel turnlabel; // Label displaying the current turn.
     private JLabel colorlabel; // Label displaying the current player's color.
     private Image image; // Holds the piece image for rendering.
+
     private List<Square> validMoves = new ArrayList<>(); // To store valid moves
+
     /**
      * Constructs a Controller with the given board, game logic, and labels.
-     * @param board the game board object
-     * @param gamelogic the game logic object
-     * @param turnlabel the label displaying the current turn
+     * 
+     * @param board      the game board object
+     * @param gamelogic  the game logic object
+     * @param turnlabel  the label displaying the current turn
      * @param colorlabel the label displaying the current player's color
      */
     public Controller(Board board, GameLogic gamelogic, JLabel turnlabel, JLabel colorlabel) {
@@ -44,10 +48,27 @@ public class Controller extends JPanel {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
 
-                // Calculate the square that was clicked based on the mouse position
+                // Calculate the square size and offsets
                 int squareSize = Math.min(getWidth() / board.getWidth(), getHeight() / board.getHeight());
-                int clickedRow = mouseY / squareSize;
-                int clickedCol = mouseX / squareSize;
+                int boardWidth = squareSize * board.getWidth();
+                int boardHeight = squareSize * board.getHeight();
+
+                int xOffset = (getWidth() - boardWidth) / 2;
+                int yOffset = (getHeight() - boardHeight) / 2;
+
+                // Adjust the mouse position to account for the offsets
+                int adjustedX = mouseX - xOffset;
+                int adjustedY = mouseY - yOffset;
+
+                // Check if the click is within the bounds of the board
+                if (adjustedX < 0 || adjustedY < 0 || adjustedX >= boardWidth || adjustedY >= boardHeight) {
+                    // Click is outside the board area
+                    return;
+                }
+
+                // Calculate the square that was clicked based on the adjusted mouse position
+                int clickedRow = adjustedY / squareSize;
+                int clickedCol = adjustedX / squareSize;
 
                 // Adjust if the board is rotated
                 if (gamelogic.isRotated()) {
@@ -58,7 +79,7 @@ public class Controller extends JPanel {
                 Square square = board.getSquare(clickedRow, clickedCol);
 
                 if (clickedSquare == null) {
-                    // Handle selecting a square with a piece of the correct color.
+                    // Handle selecting a square with a piece of the correct color
                     if (square.getPiece() != null &&
                             ((gamelogic.isBlueTurn() && "BLUE".equals(square.getPiece().getColor())) ||
                                     (!gamelogic.isBlueTurn() && "RED".equals(square.getPiece().getColor())))) {
@@ -78,7 +99,7 @@ public class Controller extends JPanel {
                         repaint();
                     }
                 } else {
-                    // Handle moving a piece to a valid destination.
+                    // Handle moving a piece to a valid destination
                     Piece piece = clickedSquare.getPiece();
                     if (piece.isValidMove(clickedSquare, square, board) && !board.sameColor(clickedSquare, square)) {
                         board.movePiece(clickedSquare, square);
@@ -90,6 +111,7 @@ public class Controller extends JPanel {
                     repaint();
                 }
             }
+
         });
     }
 
@@ -103,22 +125,20 @@ public class Controller extends JPanel {
 
     /**
      * Paints the game board and its pieces onto the panel.
+     * 
      * @param g the Graphics object used for rendering
      */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Calculate the size of each square
         int squareSize = Math.min(getWidth() / board.getWidth(), getHeight() / board.getHeight());
-
-        // Calculate the dimensions of the board
         int boardWidth = squareSize * board.getWidth();
         int boardHeight = squareSize * board.getHeight();
 
-        // Calculate the starting x, y coordinates to center the board
-        int startX = (getWidth() - boardWidth) / 2;
-        int startY = (getHeight() - boardHeight) / 2;
+        // Calculate offsets to center the board
+        int xOffset = (getWidth() - boardWidth) / 2;
+        int yOffset = (getHeight() - boardHeight) / 2;
 
         for (int i = 0; i < board.getHeight(); i++) {
             for (int j = 0; j < board.getWidth(); j++) {
@@ -132,7 +152,7 @@ public class Controller extends JPanel {
                 }
 
                 // Get the square at the adjusted position
-                Square square = board.getSquare(i, j); // i, j for actual board logic
+                Square square = board.getSquare(i, j);
 
                 // Determine the color of the square
                 Color squareColor = ((i + j) % 2 == 0) ? new Color(235, 236, 208) : new Color(119, 149, 86);
@@ -143,15 +163,24 @@ public class Controller extends JPanel {
                     g.setColor(Color.YELLOW);
                 }
 
-                // Calculate the x, y position based on drawRow and drawCol, and offset by startX and startY
-                int x = startX + drawCol * squareSize;
-                int y = startY + drawRow * squareSize;
+                // Highlight valid moves
+                if (validMoves.contains(square)) {
+                    g.setColor(Color.YELLOW);
+                }
+
+                // Calculate the x, y position based on offsets, drawRow, and drawCol
+                int x = xOffset + drawCol * squareSize;
+                int y = yOffset + drawRow * squareSize;
                 g.fillRect(x, y, squareSize, squareSize);
+
+                // Draw the outline for the square
+                g.setColor(Color.BLACK); // Black outline
+                g.drawRect(x, y, squareSize, squareSize);
 
                 // Draw the piece if present
                 Piece piece = square.getPiece();
                 if (piece != null) {
-                    ImagePanel(piece); // Assuming this is how you get the image of the piece
+                    ImagePanel(piece);
                     Image scaledImage = image.getScaledInstance(squareSize, squareSize, Image.SCALE_SMOOTH);
                     g.drawImage(scaledImage, x, y, this); // Draw the scaled image at the (x, y) position
                 }
@@ -161,6 +190,7 @@ public class Controller extends JPanel {
 
     /**
      * Loads and sets the image for the given piece based on its type and state.
+     * 
      * @param piece the piece whose image is to be loaded
      */
     public void ImagePanel(Piece piece) {
