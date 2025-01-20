@@ -84,15 +84,24 @@ public class Controller extends JPanel {
                             ((gamelogic.isBlueTurn() && "BLUE".equals(square.getPiece().getColor())) ||
                                     (!gamelogic.isBlueTurn() && "RED".equals(square.getPiece().getColor())))) {
                         clickedSquare = square;
+                        boolean currentMovingForward = false; // Initialize with a default value
                         validMoves.clear();
 
                         // Calculate valid moves
                         for (int row = 0; row < board.getHeight(); row++) {
                             for (int col = 0; col < board.getWidth(); col++) {
                                 Square targetSquare = board.getSquare(row, col);
+                                if (square.getPiece() instanceof Ram) {
+                                    Ram rampiece = (Ram) square.getPiece();
+                                    currentMovingForward = rampiece.getMovingForward();
+                                }
                                 if (square.getPiece().isValidMove(square, targetSquare, board) &&
                                         !board.sameColor(square, targetSquare)) {
                                     validMoves.add(targetSquare);
+                                }
+                                if (square.getPiece() instanceof Ram) {
+                                    Ram rampiece = (Ram) square.getPiece();
+                                    rampiece.setMovingForward(currentMovingForward);
                                 }
                             }
                         }
