@@ -1,65 +1,47 @@
 /**
- * Represents the "Ram" piece in the game.
- * Implements custom movement rules for this piece.
+ * Abstract base class for all game pieces.
+ * Defines the common properties and behaviors of pieces.
+ * Part of the Template Method design pattern.
  * 
- * Author: Ban Jue Ye
+ * Author: Siao Wei Cheng
  */
-class Ram extends Piece {
-    private boolean movingForward;
+abstract class Piece {
+    private String symbol;
+    private String color;
 
     /**
-     * Constructor to initialize a Ram piece with a color.
-     * @param color Color of the Ram piece.
+     * Constructor to initialize the piece with a symbol and color.
+     * @param symbol Symbol representing the piece.
+     * @param color Color of the piece (e.g., "Red", "Blue").
      */
-    public Ram(String color) {
-        super("Ram", color);
-        this.movingForward = true; // Initial direction is forward
+    public Piece(String symbol, String color) {
+        this.symbol = symbol;
+        this.color = color;
     }
 
     /**
-     * Checks if the Ram's move is valid based on its custom rules.
-     * @param start Starting square.
-     * @param end Ending square.
-     * @param board Current game board.
+     * Getter for the symbol of the piece.
+     * @return Symbol of the piece.
+     */
+    public String getSymbol() {
+        return symbol;
+    }
+
+    /**
+     * Getter for the color of the piece.
+     * @return Color of the piece.
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * Abstract method to determine if a move is valid.
+     * Must be implemented by all concrete subclasses.
+     * @param start Starting square of the move.
+     * @param end Ending square of the move.
+     * @param board Current state of the board.
      * @return True if the move is valid, false otherwise.
      */
-    @Override
-    public boolean isValidMove(Square start, Square end, Board board) {
-        int startX = start.getXPos();
-        int startY = start.getYPos();
-        int endX = end.getXPos();
-        int endY = end.getYPos();
-
-        // Determine direction based on movingForward flag and color
-        int direction = (getColor().equals("RED")) ? (movingForward ? 1 : -1)
-                : (movingForward ? -1 : 1);
-
-        // Ram moves forward or backward by 1 square in the same column
-        if (endX == startX && endY == startY + direction) {
-            // Check if the end square is empty
-
-            // Toggle direction if reaching the edge
-            if ((endY == 0 || endY == 7) && !board.sameColor(start, end)) {
-                movingForward = !movingForward; // Change direction
-            }
-            return true; // Valid move
-        }
-        return false; // Invalid move
-    }
-
-    /**
-     * Sets the direction of the Ram's movement.
-     * @param bool True for forward, false for backward.
-     */
-    public void setMovingForward(boolean bool) {
-        movingForward = bool;
-    }
-
-    /**
-     * Gets the current movement direction of the Ram.
-     * @return True if moving forward, false otherwise.
-     */
-    public boolean getMovingForward() {
-        return movingForward;
-    }
+    public abstract boolean isValidMove(Square start, Square end, Board board );
 }
