@@ -1,33 +1,54 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
+import java.util.*;
 
 /**
  * Main class to initialize and manage the Chess Board game.
  * Handles GUI setup and integrates game logic.
  * Part of the Model-View-Controller (MVC) design pattern.
- * - This class acts as the "Controller".
  * 
  * Author: Soo Wei Zhen, Siao Wei Cheng
  */
 public class Main {
+    private static final String SAVE_DIR = "saved_games";
+
     public static void main(String[] args) {
         // Create the board and game logic objects
         Board board = new Board();
-        JLabel turnlabel = new JLabel("Turn:" + board.getTurn());
+        JLabel turnlabel = new JLabel("Turn: " + board.getTurn());
         JLabel colorlabel = new JLabel("Player turn: Blue");
         GameLogic gamelogic = new GameLogic(board);
 
         Controller boardGUI = new Controller(board, gamelogic, turnlabel, colorlabel);
 
+        // Ensure the save directory exists
+        File saveDir = new File(SAVE_DIR);
+        if (!saveDir.exists()) {
+            saveDir.mkdir();
+        }
+
         // Ask the user if they want to load a previous game
-        int loadOption = JOptionPane.showConfirmDialog(null, "Do you want to load the previous game?", "Load Game",
-                JOptionPane.YES_NO_OPTION);
-        if (loadOption == JOptionPane.YES_OPTION) {
-            // Load the previous game if the user selects Yes
-            gamelogic.loadGame("save.txt");
-            turnlabel.setText("Turn: " + board.getTurn());
-            colorlabel.setText("Player turn: " + (gamelogic.isBlueTurn() ? "Blue" : "Red"));
+        File[] savedGames = saveDir.listFiles((_, name) -> name.endsWith(".txt"));
+        if (savedGames != null && savedGames.length > 0) {
+            String[] options = Arrays.stream(savedGames)
+                                     .map(File::getName)
+                                     .toArray(String[]::new);
+            String selectedGame = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Select a saved game to load:",
+                    "Load Game",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (selectedGame != null) {
+                gamelogic.loadGame(SAVE_DIR + "/" + selectedGame);
+                turnlabel.setText("Turn: " + board.getTurn());
+                colorlabel.setText("Player turn: " + (gamelogic.isBlueTurn() ? "Blue" : "Red"));
+            }
         }
 
         // Create the main frame
@@ -45,10 +66,15 @@ public class Main {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int saveOption = JOptionPane.showConfirmDialog(null, "Do you want to save the current game?",
-                        "Save Game", JOptionPane.YES_NO_OPTION);
-                if (saveOption == JOptionPane.YES_OPTION) {
-                    gamelogic.saveGame("save.txt");
+                String fileName = JOptionPane.showInputDialog(null,
+                        "Enter a name for your saved game:",
+                        "Save Game",
+                        JOptionPane.PLAIN_MESSAGE);
+
+                if (fileName != null && !fileName.trim().isEmpty()) {
+                    fileName = fileName.trim() + ".txt";
+                    gamelogic.saveGame(SAVE_DIR + "/" + fileName);
+                    JOptionPane.showMessageDialog(null, "Game saved as " + fileName, "Game Saved", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
