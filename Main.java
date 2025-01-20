@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Main class to initialize and manage the Chess Board game.
  * Handles GUI setup and integrates game logic.
- * Part of the Model-View-Controller (MVC) design pattern.
+ * Using Model-View-Controller (MVC) design pattern.
  * 
  * Author: Soo Wei Zhen, Siao Wei Cheng
  */
