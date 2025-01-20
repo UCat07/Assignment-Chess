@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
+ * Part of the Model-View-Controller (MVC) design pattern.
  * - This class acts as the "Controller".
  * The Controller class is responsible for rendering the game board on the GUI.
  * It handles user interactions, such as mouse clicks, and updates the board
