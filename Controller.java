@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
+ * - This class acts as the "Controller".
  * The Controller class is responsible for rendering the game board on the GUI.
  * It handles user interactions, such as mouse clicks, and updates the board
  * state
