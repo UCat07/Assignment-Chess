@@ -4,13 +4,6 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
-/**
- * Main class to initialize and manage the Chess Board game.
- * Handles GUI setup and integrates game logic.
- * Using Model-View-Controller (MVC) design pattern.
- * 
- * Author: Soo Wei Zhen, Siao Wei Cheng
- */
 public class Main {
     private static final String SAVE_DIR = "saved_games";
 
@@ -57,6 +50,60 @@ public class Main {
         frame.add(colorlabel, BorderLayout.SOUTH);
         frame.add(turnlabel, BorderLayout.NORTH);
         frame.add(boardGUI, BorderLayout.CENTER);
+
+        // Create a panel for additional controls (e.g., the save button)
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        // Create a save button
+        JButton saveButton = new JButton("Save Game");
+        saveButton.addActionListener(e -> {
+            String fileName = JOptionPane.showInputDialog(null,
+                    "Enter a name for your saved game:",
+                    "Save Game",
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                fileName = fileName.trim() + ".txt";
+                gamelogic.saveGame(SAVE_DIR + "/" + fileName);
+                JOptionPane.showMessageDialog(null, "Game saved as " + fileName, "Game Saved", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        // Add the save button to the control panel
+        controlPanel.add(saveButton);
+
+        // Add the control panel to the bottom of the frame
+        frame.add(controlPanel, BorderLayout.SOUTH);
+
+        // Create the menu bar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu gameMenu = new JMenu("Game");
+
+        // Add a save menu item
+        JMenuItem saveMenuItem = new JMenuItem("Save Game");
+        saveMenuItem.addActionListener(e -> {
+            String fileName = JOptionPane.showInputDialog(null,
+                    "Enter a name for your saved game:",
+                    "Save Game",
+                    JOptionPane.PLAIN_MESSAGE);
+
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                fileName = fileName.trim() + ".txt";
+                gamelogic.saveGame(SAVE_DIR + "/" + fileName);
+                JOptionPane.showMessageDialog(null, "Game saved as " + fileName, "Game Saved", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        // Add menu items to the menu
+        gameMenu.add(saveMenuItem);
+
+        // Add the menu to the menu bar
+        menuBar.add(gameMenu);
+
+        // Add the menu bar to the frame
+        frame.setJMenuBar(menuBar);
+
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
