@@ -47,7 +47,6 @@ public class Main {
         // Create the main frame
         JFrame frame = new JFrame("Chess Board");
         frame.setLayout(new BorderLayout());
-        frame.add(colorlabel, BorderLayout.SOUTH);
         frame.add(turnlabel, BorderLayout.NORTH);
         frame.add(boardGUI, BorderLayout.CENTER);
 
@@ -73,36 +72,18 @@ public class Main {
         // Add the save button to the control panel
         controlPanel.add(saveButton);
 
-        // Add the control panel to the bottom of the frame
-        frame.add(controlPanel, BorderLayout.SOUTH);
+        // Create a panel for the color label and control panel
+        JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BorderLayout());
 
-        // Create the menu bar
-        JMenuBar menuBar = new JMenuBar();
-        JMenu gameMenu = new JMenu("Game");
+        // Add the color label to the south panel
+        southPanel.add(colorlabel, BorderLayout.NORTH);
 
-        // Add a save menu item
-        JMenuItem saveMenuItem = new JMenuItem("Save Game");
-        saveMenuItem.addActionListener(e -> {
-            String fileName = JOptionPane.showInputDialog(null,
-                    "Enter a name for your saved game:",
-                    "Save Game",
-                    JOptionPane.PLAIN_MESSAGE);
+        // Add the control panel to the south panel
+        southPanel.add(controlPanel, BorderLayout.SOUTH);
 
-            if (fileName != null && !fileName.trim().isEmpty()) {
-                fileName = fileName.trim() + ".txt";
-                gamelogic.saveGame(SAVE_DIR + "/" + fileName);
-                JOptionPane.showMessageDialog(null, "Game saved as " + fileName, "Game Saved", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        // Add menu items to the menu
-        gameMenu.add(saveMenuItem);
-
-        // Add the menu to the menu bar
-        menuBar.add(gameMenu);
-
-        // Add the menu bar to the frame
-        frame.setJMenuBar(menuBar);
+        // Add the south panel to the bottom of the frame
+        frame.add(southPanel, BorderLayout.SOUTH);
 
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
