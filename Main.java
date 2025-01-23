@@ -56,7 +56,7 @@ public class Main {
 
         // Create a save button
         JButton saveButton = new JButton("Save Game");
-        saveButton.addActionListener(e -> {
+        saveButton.addActionListener(_ -> {
             String fileName = JOptionPane.showInputDialog(null,
                     "Enter a name for your saved game:",
                     "Save Game",
