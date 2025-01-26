@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
  * The Board class represents the game board for the chess-like game.
  * It manages the squares, pieces, and game turns.
  * This class is part of the MVC pattern and acts as the model.
- * 
+ * There is also a PieceFactory class that creates pieces and use factory pattern.
  * Author: Soo Wei Zhen, Ban Jue Ye
  */
 public class Board {
@@ -12,6 +12,8 @@ public class Board {
     private int height = 8;
     private int width = 5;
     private int turn = 1;
+
+    private PieceFactory pieceFactory = new PieceFactory();
 
     /**
      * Constructor to initialize the board with squares and initial pieces.
@@ -42,27 +44,26 @@ public class Board {
      */
     public void initializePiece() {
         // Place Tor and Xor pieces
-        square[0][0].setPiece(new Tor("RED"));
-        square[0][4].setPiece(new Xor("RED"));
-        square[7][4].setPiece(new Tor("BLUE"));
-        square[7][0].setPiece(new Xor("BLUE"));
+        square[0][0].setPiece(pieceFactory.createPiece("Tor", "RED"));
+        square[0][4].setPiece(pieceFactory.createPiece("Xor", "RED"));
+        square[7][4].setPiece(pieceFactory.createPiece("Tor", "BLUE"));
+        square[7][0].setPiece(pieceFactory.createPiece("Xor", "BLUE"));
 
         // Place Sau pieces
-        square[0][2].setPiece(new Sau("RED"));
-        square[7][2].setPiece(new Sau("BLUE"));
+        square[0][2].setPiece(pieceFactory.createPiece("Sau", "RED"));
+        square[7][2].setPiece(pieceFactory.createPiece("Sau", "BLUE"));
 
         // Place Biz pieces
-        square[0][1].setPiece(new Biz("RED"));
-        square[0][3].setPiece(new Biz("RED"));
-        square[7][1].setPiece(new Biz("BLUE"));
-        square[7][3].setPiece(new Biz("BLUE"));
+        square[0][1].setPiece(pieceFactory.createPiece("Biz", "RED"));
+        square[0][3].setPiece(pieceFactory.createPiece("Biz", "RED"));
+        square[7][1].setPiece(pieceFactory.createPiece("Biz", "BLUE"));
+        square[7][3].setPiece(pieceFactory.createPiece("Biz", "BLUE"));
 
         // Place Ram pieces
         for (int i = 0; i < width; i++) {
-            square[1][i].setPiece(new Ram("RED"));
-            square[6][i].setPiece(new Ram("BLUE"));
+            square[1][i].setPiece(pieceFactory.createPiece("Ram", "RED"));
+            square[6][i].setPiece(pieceFactory.createPiece("Ram", "BLUE"));
         }
-
     }
 
     /**
@@ -89,11 +90,14 @@ public class Board {
      * Ends the game if the Sau piece is captured.
      * @param from The square where the piece is currently located.
      * @param to The square where the piece will be moved.
-     * Author: Soo Wei Zhen, Ban Jue Ye
+     * Author: Soo Wei Zhen
      */
     public void movePiece(Square from, Square to) {
         Piece movingPiece = from.getPiece();
         Piece targetPiece = to.getPiece();
+
+        to.setPiece(movingPiece);
+        from.setPiece(null);
 
         // Check if the target piece is a Sau
         if (targetPiece instanceof Sau) {
@@ -101,9 +105,6 @@ public class Board {
             endGame(winner);
             return;
         }
-
-        to.setPiece(movingPiece);
-        from.setPiece(null);
     }
 
     /**
@@ -113,7 +114,6 @@ public class Board {
      */
     private void endGame(String winner) {
         JOptionPane.showMessageDialog(null, winner + " wins! Game over.");
-
         System.exit(0);
     }
 
@@ -193,5 +193,28 @@ public class Board {
      */
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+}
+
+/**
+ * PieceFactory is responsible for creating pieces.
+ * It follows the Factory Design Pattern.
+ */
+class PieceFactory {
+    public Piece createPiece(String type, String color) {
+        switch (type) {
+            case "Tor":
+                return new Tor(color);
+            case "Xor":
+                return new Xor(color);
+            case "Sau":
+                return new Sau(color);
+            case "Biz":
+                return new Biz(color);
+            case "Ram":
+                return new Ram(color);
+            default:
+                throw new IllegalArgumentException("Invalid piece type: " + type);
+        }
     }
 }
