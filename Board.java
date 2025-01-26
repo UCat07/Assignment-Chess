@@ -4,8 +4,8 @@ import javax.swing.JOptionPane;
  * The Board class represents the game board for the chess-like game.
  * It manages the squares, pieces, and game turns.
  * This class is part of the MVC pattern and acts as the model.
- * There is also a PieceFactory class that creates pieces and use factory pattern.
- * Author: Soo Wei Zhen, Ban Jue Ye
+ * There is also a PieceFactory class that creates pieces and use factory design pattern.
+ * Author: Soo Wei Zhen, Ban Jue Ye, Siao Wei Cheng
  */
 public class Board {
     private Square[][] square;
@@ -199,6 +199,7 @@ public class Board {
 /**
  * PieceFactory is responsible for creating pieces.
  * It follows the Factory Design Pattern.
+ * Author: Siao Wei Cheng
  */
 class PieceFactory {
     public Piece createPiece(String type, String color) {
